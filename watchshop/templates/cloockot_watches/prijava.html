@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8">
+  <title>Cloockot-Prijava</title>
+  <style>
+    body {
+      background-color: #ff4c4c; /* crvena pozadina */
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #1b263b;
+    }
+
+    button[type="submit"] {
+      background-color: #1b263b; /* teget */
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0d1b2a; /* tamnija teget */
+    }
+
+    .messages {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .messages li {
+      list-style: none;
+      padding: 8px;
+      background: #ffe0e0;
+      border-left: 4px solid #e52b2b;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #333;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Prijava</h2>
+
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+<form method="post">
+  {% csrf_token %}
+
+  {% if request.GET.next %}
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
+  {% endif %}
+
+  {{ form.as_p }}
+  <button type="submit">Prijavi se</button>
+</form>
+
+  </div>
+</body>
+</html>
