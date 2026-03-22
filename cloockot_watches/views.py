@@ -19,8 +19,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import json
 from django.core.mail import EmailMultiAlternatives
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
+#from django.template.loader import render_to_string
+#from django.utils.html import strip_tags
 
 @csrf_exempt  # Dodajte ovaj dekorator za AJAX zahteve
 def posalji_email(request):
