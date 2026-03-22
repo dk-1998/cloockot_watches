@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('', views.index, name='index'),           # ← DODAJ OVO (root URL)
     path('index/', views.index, name='index'),
     path('onama/', views.onama, name='onama'),
     path('satovi/', views.satovi, name='satovi'),
@@ -11,5 +12,4 @@ urlpatterns = [
     path('odjava/', views.odjava, name='odjava'),
     path('checkout/', views.checkout, name='checkout'),
     path("posalji_email/", views.posalji_email, name="posalji_email"),
-
 ]
