@@ -6,3 +6,4 @@ djangorestframework==3.16.1
 django-environ==0.12.0
 dj-database-url==3.0.1
 django_compressor==4.6.0
+Pillow==12.1.1
