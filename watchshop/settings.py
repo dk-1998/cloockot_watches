@@ -34,9 +34,15 @@ SECRET_KEY = 'django-insecure-^4$6&iyc#l(f!vwr0fp^25kytr-9ay%g&f6g*@&q#s8rh3st9#
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
-ALLOWED_HOSTS = ['clookot.com', 'www.clookot.com', 'clookot-watches.onrender.com']
+DEBUG = False
 
+ALLOWED_HOSTS = [
+    'cloockot.com',
+    'www.cloockot.com',
+    'clookot-watches.onrender.com', # Ovo dodajte da biste mogli da testirate i preko Render URL-a
+    'localhost', # Za lokalni rad
+    '127.0.0.1',
+]
 
 
 # Application definition
