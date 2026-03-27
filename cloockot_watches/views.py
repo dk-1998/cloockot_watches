@@ -72,7 +72,7 @@ def posalji_email(request):
                 subject=subject,
                 body=body_text,
                 from_email=settings.EMAIL_HOST_USER,
-                to=["cloockot.probniemail@gmail.com"],
+                to=["cloockot@gmail.com"],
                 reply_to=[email],
             )
             msg.attach_alternative(body_html, "text/html")
