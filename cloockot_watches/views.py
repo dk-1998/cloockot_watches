@@ -22,12 +22,38 @@ from django.core.mail import EmailMultiAlternatives
 #from django.template.loader import render_to_string
 #from django.utils.html import strip_tags
 
-@csrf_exempt
+@csrf_exempt  # Dodajte ovaj dekorator za AJAX zahteve
 def posalji_email(request):
     if request.method == "POST":
         try:
-            # Obradi podatke...
-            
+            # Ako je korisnik ulogovan
+            if request.session.get('korisnik_id'):
+                try:
+                    korisnik = Korisnik.objects.get(id=request.session['korisnik_id'])
+                    email = korisnik.email
+                except Korisnik.DoesNotExist:
+                    return JsonResponse(
+                        {'error': 'Korisnik nije pronađen.'},
+                        status=400
+                    )
+            else:
+                email = request.POST.get("email")
+                if not email:
+                    return JsonResponse(
+                        {'error': 'Email je obavezan za neulogovane korisnike.'},
+                        status=400
+                    )
+
+            telefon = request.POST.get("telefon", "")
+            poruka = request.POST.get("poruka", "")
+            slika = request.FILES.get("slika")
+
+            if not poruka:
+                return JsonResponse(
+                    {'error': 'Poruka je obavezno polje.'},
+                    status=400
+                )
+
             subject = "Upit sa Cloockot sajta"
             body_text = f"Email: {email}\nTelefon: {telefon}\nPoruka: {poruka}"
             
@@ -42,54 +68,52 @@ def posalji_email(request):
             </html>
             """
 
-            # KORIGOVAN DEO - dodajemo DEFAULT_FROM_EMAIL
             msg = EmailMultiAlternatives(
                 subject=subject,
                 body=body_text,
-                from_email=settings.DEFAULT_FROM_EMAIL,  # ← OVO JE BITNO
+                from_email=settings.EMAIL_HOST_USER,
                 to=["cloockot@gmail.com"],
                 reply_to=[email],
             )
             msg.attach_alternative(body_html, "text/html")
 
             if slika:
-                # Provera veličine slike
-                if slika.size > 5 * 1024 * 1024:
+                # Proverite veličinu slike
+                if slika.size > 5 * 1024 * 1024:  # 5MB limit
                     return JsonResponse(
                         {'error': 'Slika je prevelika. Maksimalna veličina je 5MB.'},
                         status=400
                     )
                 
-                # Dodaj sliku
                 img_data = slika.read()
                 img = MIMEImage(img_data)
                 img.add_header('Content-ID', '<slika1>')
                 img.add_header('Content-Disposition', 'inline', filename=slika.name)
                 msg.attach(img)
                 
-                # Ažuriraj HTML da prikaže sliku
-                updated_html = body_html + f'''
+                # Dodajte sliku u HTML
+                body_html += f'''
                 <p><b>Uploadovana slika:</b><br>
                 <img src="cid:slika1" style="max-width:400px;border:1px solid #ccc;border-radius:8px">
                 </p>
                 '''
-                msg.attach_alternative(updated_html, "text/html")
+                msg.alternatives = []  # Obriši stare alternative
+                msg.attach_alternative(body_html, "text/html")
 
-            # Pošalji email sa try-except
             try:
-                msg.send(fail_silently=False)  # fail_silently=False da bismo videli grešku
-                return JsonResponse({'success': True, 'message': 'Email je uspešno poslat.'})
+                msg.send(fail_silently=False)
+                return JsonResponse({'success': True})
             except Exception as e:
-                print(f"SMTP greška: {str(e)}")  # Ovo će ti pomoći da vidiš tačnu grešku
+                print(f"Email sending error: {e}")
                 return JsonResponse(
-                    {'error': f'Greška pri slanju emaila: {str(e)}'},
+                    {'error': 'Greška prilikom slanja emaila. Proverite konfiguraciju servera.'},
                     status=500
                 )
 
         except Exception as e:
-            print(f"Generalna greška: {str(e)}")
+            print(f"General error: {e}")
             return JsonResponse(
-                {'error': f'Došlo je do greške: {str(e)}'},
+                {'error': 'Došlo je do greške prilikom obrade zahteva.'},
                 status=500
             )
 
