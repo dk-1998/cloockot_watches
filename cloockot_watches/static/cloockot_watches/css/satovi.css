@@ -572,3 +572,10 @@
 .dot.active {
   background: #000;
 }
+.filter-panel {
+  display: none;
+}
+
+.filter-panel.open {
+  display: block;
+}
