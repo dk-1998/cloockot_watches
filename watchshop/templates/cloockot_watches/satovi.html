@@ -622,7 +622,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // ================= PREVIEW (SAMO JEDNA FUNKCIJA!) =================
+  // ================= PREVIEW =================
   window.pregledaj = function(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -704,6 +704,35 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleFilterPanel(false);
   };
 
+  // ================= KORPA =================
+  let cart = [];
+  const cartDiv = document.getElementById('cart');
+  const checkoutBtn = document.getElementById('checkout');
+
+  function renderCart() {
+    if (cart.length === 0) {
+      cartDiv.innerHTML = "<p>Korpa je prazna.</p>";
+      checkoutBtn.style.display = "none";
+    } else {
+      cartDiv.innerHTML = "<p>U korpi imate:</p><ul>" + cart.map(item => `<li>${item}</li>`).join('') + "</ul>";
+      checkoutBtn.style.display = "inline-block";
+    }
+  }
+
+  function addCardToCart(card) {
+    const title = card.querySelector('.title')?.textContent || 'Nepoznat proizvod';
+    cart.push(title);
+    renderCart();
+  }
+
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', () => {
+      alert("Porudžbina poslata! Hvala na kupovini.");
+      cart = [];
+      renderCart();
+    });
+  }
+
   // ================= EVENTI =================
   document.querySelectorAll('.preview-btn').forEach(btn => {
     btn.addEventListener('click', pregledaj);
@@ -725,6 +754,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   console.log("JS učitan - sve spremno");
+  renderCart();
 
 });
 
@@ -786,5 +816,6 @@ dots.forEach((dot, i) => {
   });
 });
 </script>
+
 </body>
 </html>
