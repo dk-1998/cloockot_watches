@@ -26,7 +26,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'cloockot@gmail.com'
 EMAIL_HOST_PASSWORD = 'onih gezu pzmd rwkj'  # Proverite da li je ovo ispravan app password
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = 'cloockot@gmail.com'
 
 # Za DEBUG=False, morate imati ove postavke
 SECURE_SSL_REDIRECT = False  # Postavite na True ako imate SSL sertifikat
