@@ -572,10 +572,43 @@
 .dot.active {
   background: #000;
 }
-.filter-panel {
-  display: none;
-}
+/* MOBILE FILTER PANEL */
+@media (max-width: 768px) {
+  #filterPanel {
+    position: fixed;
+    top: 60px; /* ispod header-a */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: calc(100% - 60px); /* ceo ekran minus header */
+    background: white;
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 9999;
+    display: none; /* po defaultu skriven */
+  }
 
-.filter-panel.open {
-  display: block;
+  #filterPanel.open {
+    display: block;
+  }
+
+  #filterPanel form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  #filterPanel .filter-actions {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+  }
+
+  #filterToggle {
+    position: relative;
+    z-index: 10000; /* da bude iznad svega */
+  }
 }
