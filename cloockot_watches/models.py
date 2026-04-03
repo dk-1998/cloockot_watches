@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import RegexValidator
-from django.core.files.storage import default_storage
 
 class Korisnik(models.Model):
     ime = models.CharField(max_length=30)
@@ -25,9 +24,20 @@ class Porudzbina(models.Model):
     datum = models.DateTimeField(auto_now_add=True)
     artikli = models.JSONField(help_text="Lista artikala u JSON formatu")
     ukupno = models.IntegerField(help_text="Ukupna cena u RSD")
+    
+    # DODATO: naziv naručenog sata (prvi sat iz porudžbine ili posebno)
+    naziv = models.CharField(max_length=200, blank=True, null=True, help_text="Naziv naručenog sata")
 
     def __str__(self):
         return f"Porudžbina #{self.id} – {self.korisnik.korisnicko_ime} ({self.datum.strftime('%d.%m.%Y %H:%M')})"
+    
+    def save(self, *args, **kwargs):
+        # Ako naziv nije postavljen, uzmi naziv prvog artikla iz liste
+        if not self.naziv and self.artikli:
+            first_item = self.artikli[0] if self.artikli else None
+            if first_item:
+                self.naziv = first_item.get('naziv', '')
+        super().save(*args, **kwargs)
     
     def formatirani_artikli(self):
         """Vraća formatiran string sa artiklima za admin panel"""
@@ -48,14 +58,10 @@ class Porudzbina(models.Model):
         verbose_name = "Porudžbina"
         verbose_name_plural = "Porudžbine"
         ordering = ['-datum']
-        
     
 
 class Sat(models.Model):
-    # postojeći field-ovi
     slika = models.ImageField(upload_to='satovi/')
     
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        # Možete dodati automatsku optimizaciju slika
-        # koristeći Pillow biblioteku

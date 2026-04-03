@@ -16,11 +16,11 @@ class KorisnikAdmin(admin.ModelAdmin):
     broj_porudzbina.short_description = 'Broj porudžbina'
 
 class PorudzbinaAdmin(admin.ModelAdmin):
-    list_display = ('id', 'korisnik_info', 'korisnik_email', 'korisnik_telefon', 'datum', 'ukupno_display', 'broj_artikala')
-    search_fields = ('korisnik__korisnicko_ime', 'korisnik__ime', 'korisnik__prezime', 'korisnik__email')
+    list_display = ('id', 'naziv', 'korisnik_info', 'korisnik_email', 'datum', 'ukupno_display', 'broj_artikala')
+    search_fields = ('naziv', 'korisnik__korisnicko_ime', 'korisnik__ime', 'korisnik__prezime', 'korisnik__email')
     list_filter = ('datum',)
     readonly_fields = ('datum', 'artikli_display')
-    fields = ('korisnik', 'datum', 'artikli_display', 'ukupno')
+    fields = ('korisnik', 'naziv', 'datum', 'artikli_display', 'ukupno')
     list_per_page = 20
     ordering = ('-datum',)
     
@@ -66,12 +66,11 @@ class PorudzbinaAdmin(admin.ModelAdmin):
     broj_artikala.short_description = 'Broj artikala'
     
     def artikli_display(self, obj):
-        """Prikazuje artikle u lepoj tabeli – koristi formatirani_artikli iz models.py kao fallback"""
+        """Prikazuje artikle u lepoj tabeli"""
         if not obj.artikli:
             return "Nema artikala"
         
         try:
-            # Pokušaj sa lepom tabelom
             html = '<div style="max-height: 400px; overflow-y: auto;">'
             html += '<table style="width:100%; border-collapse: collapse; font-size: 13px;">'
             html += '<thead>'
@@ -96,7 +95,7 @@ class PorudzbinaAdmin(admin.ModelAdmin):
                         <td style="padding: 8px; text-align: left;">{art.get('naziv', '')}</td>
                         <td style="padding: 8px; text-align: right;">{cena:,}</td>
                         <td style="padding: 8px; text-align: center;">{kolicina}</td>
-                        <td style="padding: 8px; text-align: right;">{ukupno_art:,}</td>
+                        <td style="padding: 8px; text-align: right;">{ukupno_art:,} RSD</td>
                     </tr>
                 '''
             
@@ -113,12 +112,12 @@ class PorudzbinaAdmin(admin.ModelAdmin):
             html += '</div>'
             return html
         except Exception:
-            # Ako nešto ne radi, koristi formatirani_artikli iz models.py
             return obj.formatirani_artikli()
     
     artikli_display.short_description = 'Artikli'
     artikli_display.allow_tags = True
 
 
+# Registracija modela u admin panel
 admin.site.register(Korisnik, KorisnikAdmin)
 admin.site.register(Porudzbina, PorudzbinaAdmin)
