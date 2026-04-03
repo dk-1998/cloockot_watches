@@ -119,26 +119,6 @@ class PorudzbinaAdmin(admin.ModelAdmin):
     artikli_display.short_description = 'Artikli'
     artikli_display.allow_tags = True
 
-class SatAdmin(admin.ModelAdmin):
-    list_display = ('id', 'slika_display', 'prikaz_slike')
-    readonly_fields = ('prikaz_slike',)
-    fields = ('slika', 'prikaz_slike')
-    
-    def slika_display(self, obj):
-        if obj.slika:
-            return obj.slika.name
-        return "Nema slike"
-    slika_display.short_description = 'Put do slike'
-    
-    def prikaz_slike(self, obj):
-        if obj.slika:
-            from django.utils.html import mark_safe
-            return mark_safe(f'<img src="{obj.slika.url}" style="max-height: 200px; max-width: 200px;" />')
-        return "Nema slike"
-    prikaz_slike.short_description = 'Prikaz slike'
-    prikaz_slike.allow_tags = True
 
-# Registracija modela u admin panel
 admin.site.register(Korisnik, KorisnikAdmin)
 admin.site.register(Porudzbina, PorudzbinaAdmin)
-admin.site.register(Sat, SatAdmin)
