@@ -1994,3 +1994,5 @@ File C:\Users\dmin\AppData\Local\Programs\Python\Python312\Lib\site-packages\PIL
 File C:\Users\dmin\AppData\Local\Programs\Python\Python312\Lib\site-packages\PIL\_typing.py first seen with mtime 1719753784.1809602
 File C:\Users\dmin\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\views\csrf.py first seen with mtime 1732720234.0078702
 File C:\Users\dmin\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\views\csrf.py first seen with mtime 1732720234.0078702
+ALTER TABLE "cloockot_watches_porudzbina" ADD COLUMN "naziv" varchar(200) NULL; (params None)
+ALTER TABLE "cloockot_watches_porudzbina" ADD COLUMN "naziv" varchar(200) NULL; (params None)
