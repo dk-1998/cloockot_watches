@@ -21,7 +21,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Email konfiguracija - PROVERITE DA LI JE ISPRAVNA
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp-relay.sendinblue.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'cloockot@gmail.com'
