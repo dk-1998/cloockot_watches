@@ -12,6 +12,11 @@ from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 from django.template.loader import render_to_string
 import logging
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 
 logger = logging.getLogger(__name__)
 
@@ -192,7 +197,7 @@ def checkout(request):
                 subject=subject,
                 body=text_content,
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                to=['cloockot@gmail.com'],  # Promeni na svoju email adresu
+                to=['cloockot@gmail.com'],
                 reply_to=[korisnik.email],
             )
             msg.attach_alternative(html_content, "text/html")
@@ -214,7 +219,9 @@ def checkout(request):
     except Exception as e:
         logger.error(f"Greška u checkout: {str(e)}")
         return JsonResponse({'error': f'Došlo je do greške: {str(e)}'}, status=400)
-    # Kontakt forma - slanje emaila
+
+
+# Kontakt forma - slanje emaila (sa smtplib i dužim timeout-om)
 @require_http_methods(["POST"])
 @ensure_csrf_cookie
 def posalji_email(request):
@@ -278,30 +285,46 @@ def posalji_email(request):
         """
         
         text_content = strip_tags(html_content)
-        
-        # Kreiraj email
         subject = f'Kontakt poruka od {ime_korisnika}'
         
-        msg = EmailMultiAlternatives(
-            subject=subject,
-            body=text_content,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            to=['cloockot@gmail.com'],  # Tvoja email adresa
-            reply_to=[email_korisnika],
-        )
-        msg.attach_alternative(html_content, "text/html")
+        # Kreiraj MIME poruku
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = subject
+        msg['From'] = settings.DEFAULT_FROM_EMAIL
+        msg['To'] = 'cloockot@gmail.com'
+        msg['Reply-To'] = email_korisnika
+        
+        # Dodaj tekstualnu i HTML verziju
+        part1 = MIMEText(text_content, 'plain')
+        part2 = MIMEText(html_content, 'html')
+        msg.attach(part1)
+        msg.attach(part2)
         
         # Ako ima slike, dodaj je kao prilog
         if slika:
-            msg.attach(slika.name, slika.read(), slika.content_type)
+            part = MIMEBase('application', 'octet-stream')
+            part.set_payload(slika.read())
+            encoders.encode_base64(part)
+            part.add_header(
+                'Content-Disposition',
+                f'attachment; filename="{slika.name}"'
+            )
+            msg.attach(part)
         
-        # Pošalji email
-        msg.send(fail_silently=False)
+        # Poveži se na SMTP server sa dužim timeout-om (60 sekundi)
+        server = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT, timeout=60)
+        server.starttls()
+        server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+        server.sendmail(settings.DEFAULT_FROM_EMAIL, ['cloockot@gmail.com'], msg.as_string())
+        server.quit()
         
         logger.info(f"Kontakt email poslat od {email_korisnika}")
         
         return JsonResponse({'success': True, 'message': 'Poruka je uspešno poslata!'})
         
+    except smtplib.SMTPException as e:
+        logger.error(f"SMTP greška: {str(e)}")
+        return JsonResponse({'error': f'SMTP greška: {str(e)}'}, status=500)
     except Exception as e:
         logger.error(f"Greška pri slanju kontakt emaila: {str(e)}")
         return JsonResponse({'error': f'Došlo je do greške: {str(e)}'}, status=500)
