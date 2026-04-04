@@ -603,7 +603,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script>
+ <script>
   // ======== GLOBALNE PROMENLJIVE ========
   let currentModalProduct = null;
   let swiperInstance = null;
@@ -730,20 +730,30 @@
     const filterToggle = document.getElementById('filterToggle');
     const filterPanel = document.getElementById('filterPanel');
     
+    console.log('Filter toggle:', filterToggle); // Provera u konzoli
+    console.log('Filter panel:', filterPanel);
+    
     if (filterToggle && filterPanel) {
-      filterToggle.addEventListener('click', (e) => {
+      // Ukloni postojeće event listenere da bi izbegli dupliranje
+      const newToggle = filterToggle.cloneNode(true);
+      filterToggle.parentNode.replaceChild(newToggle, filterToggle);
+      
+      newToggle.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         filterPanel.classList.toggle('active');
-        filterToggle.classList.toggle('active');
+        newToggle.classList.toggle('active');
+        console.log('Filter panel toggled:', filterPanel.classList.contains('active'));
       });
       
-      document.addEventListener('click', (e) => {
-        if (!filterToggle.contains(e.target) && !filterPanel.contains(e.target)) {
+      document.addEventListener('click', function(e) {
+        if (!newToggle.contains(e.target) && !filterPanel.contains(e.target)) {
           filterPanel.classList.remove('active');
-          filterToggle.classList.remove('active');
+          newToggle.classList.remove('active');
         }
       });
+    } else {
+      console.error('Filter elementi nisu pronađeni!');
     }
   }
 
@@ -761,12 +771,11 @@
 
   // ======== MODAL PROIZVODA ========
   function openProductModal(card) {
-    // Zatvori filter panel ako je otvoren
     const filterPanel = document.getElementById('filterPanel');
     const filterToggle = document.getElementById('filterToggle');
     if (filterPanel && filterPanel.classList.contains('active')) {
       filterPanel.classList.remove('active');
-      filterToggle.classList.remove('active');
+      if(filterToggle) filterToggle.classList.remove('active');
     }
     
     const images = JSON.parse(card.dataset.images);
@@ -818,6 +827,113 @@
     }, 100);
   }
 
+  // ======== FUNKCIJA ZA FILTRIRANJE ========
+  window.applyFilters = function() {
+    console.log('applyFilters pozvana');
+    
+    const selectedPol = Array.from(document.querySelectorAll('input[name="pol"]:checked')).map(cb => cb.value);
+    const selectedBrend = Array.from(document.querySelectorAll('input[name="brend"]:checked')).map(cb => cb.value);
+    const selectedNarukvica = Array.from(document.querySelectorAll('input[name="narukvica"]:checked')).map(cb => cb.value);
+    const selectedKategorija = Array.from(document.querySelectorAll('input[name="kategorija"]:checked')).map(cb => cb.value);
+    const selectedBoja = Array.from(document.querySelectorAll('input[name="boja"]:checked')).map(cb => cb.value);
+    
+    const minPrice = parseInt(document.getElementById('minPrice').value);
+    const maxPrice = parseInt(document.getElementById('maxPrice').value);
+    
+    const cards = document.querySelectorAll('.card');
+    let visibleCount = 0;
+    
+    cards.forEach(card => {
+      let show = true;
+      
+      if (selectedPol.length > 0) {
+        const cardPol = card.dataset.pol;
+        if (!selectedPol.includes(cardPol)) show = false;
+      }
+      
+      if (show && selectedBrend.length > 0) {
+        const cardBrend = card.dataset.brend;
+        if (!selectedBrend.includes(cardBrend)) show = false;
+      }
+      
+      if (show && selectedNarukvica.length > 0) {
+        const cardNarukvica = card.dataset.narukvica;
+        if (!selectedNarukvica.includes(cardNarukvica)) show = false;
+      }
+      
+      if (show && selectedKategorija.length > 0) {
+        const cardKategorija = card.dataset.kategorija;
+        if (!selectedKategorija.includes(cardKategorija)) show = false;
+      }
+      
+      if (show && selectedBoja.length > 0) {
+        const cardBoja = card.dataset.boja;
+        if (!selectedBoja.includes(cardBoja)) show = false;
+      }
+      
+      if (show) {
+        const cardPrice = parseInt(card.dataset.price);
+        if (cardPrice < minPrice || cardPrice > maxPrice) show = false;
+      }
+      
+      if (show) {
+        card.style.display = '';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    
+    const grid = document.getElementById('grid');
+    let noResultsMsg = document.getElementById('noResultsMsg');
+    
+    if (visibleCount === 0) {
+      if (!noResultsMsg) {
+        noResultsMsg = document.createElement('div');
+        noResultsMsg.id = 'noResultsMsg';
+        noResultsMsg.style.textAlign = 'center';
+        noResultsMsg.style.padding = '40px';
+        noResultsMsg.style.fontSize = '18px';
+        noResultsMsg.style.color = '#666';
+        noResultsMsg.innerHTML = '❌ Nema proizvoda koji odgovaraju izabranim filterima.';
+        grid.appendChild(noResultsMsg);
+      }
+    } else {
+      if (noResultsMsg) noResultsMsg.remove();
+    }
+    
+    const filterPanel = document.getElementById('filterPanel');
+    const filterToggle = document.getElementById('filterToggle');
+    if (filterPanel) {
+      filterPanel.classList.remove('active');
+      if(filterToggle) filterToggle.classList.remove('active');
+    }
+    
+    showNotification(`Prikazano ${visibleCount} od ${cards.length} proizvoda`);
+  };
+
+  // ======== FUNKCIJA ZA RESETOVANJE FILTERA ========
+  window.resetFilters = function() {
+    console.log('resetFilters pozvana');
+    
+    document.querySelectorAll('.filter-panel input[type="checkbox"]').forEach(cb => {
+      cb.checked = false;
+    });
+    
+    document.getElementById('minPrice').value = '0';
+    document.getElementById('maxPrice').value = '999999';
+    
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.style.display = '';
+    });
+    
+    const noResultsMsg = document.getElementById('noResultsMsg');
+    if (noResultsMsg) noResultsMsg.remove();
+    
+    showNotification('Svi filteri su resetovani');
+  };
+
   // ======== CHECKOUT ========
   async function checkout() {
     if (currentCart.length === 0) {
@@ -868,20 +984,27 @@
     const btnCart = document.getElementById('btnCart');
     const cartModal = document.getElementById('cartModal');
 
-    btnCart.addEventListener('click', () => {
-      cartModal.style.display = 'flex';
-      updateCartDisplay();
-    });
+    if(btnCart) {
+      btnCart.addEventListener('click', () => {
+        cartModal.style.display = 'flex';
+        updateCartDisplay();
+      });
+    }
 
-    document.getElementById('closeCartModal').addEventListener('click', () => {
-      cartModal.style.display = 'none';
-    });
-
-    cartModal.addEventListener('click', (e) => {
-      if (e.target === cartModal) {
+    const closeCartModal = document.getElementById('closeCartModal');
+    if(closeCartModal) {
+      closeCartModal.addEventListener('click', () => {
         cartModal.style.display = 'none';
-      }
-    });
+      });
+    }
+
+    if(cartModal) {
+      cartModal.addEventListener('click', (e) => {
+        if (e.target === cartModal) {
+          cartModal.style.display = 'none';
+        }
+      });
+    }
 
     document.querySelectorAll('.add-to-cart').forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -902,7 +1025,10 @@
       });
     });
 
-    document.getElementById('checkoutBtn').addEventListener('click', checkout);
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    if(checkoutBtn) {
+      checkoutBtn.addEventListener('click', checkout);
+    }
     
     const modalCloseBtn = document.getElementById('modalClose');
     const modal = document.getElementById('productModal');
@@ -924,142 +1050,22 @@
         closeModal();
       }
     });
-  });
-  // ======== FUNKCIJA ZA FILTRIRANJE ========
-function applyFilters() {
-  // Uzmi sve vrednosti iz filtera
-  const selectedPol = Array.from(document.querySelectorAll('input[name="pol"]:checked')).map(cb => cb.value);
-  const selectedBrend = Array.from(document.querySelectorAll('input[name="brend"]:checked')).map(cb => cb.value);
-  const selectedNarukvica = Array.from(document.querySelectorAll('input[name="narukvica"]:checked')).map(cb => cb.value);
-  const selectedKategorija = Array.from(document.querySelectorAll('input[name="kategorija"]:checked')).map(cb => cb.value);
-  const selectedBoja = Array.from(document.querySelectorAll('input[name="boja"]:checked')).map(cb => cb.value);
-  
-  const minPrice = parseInt(document.getElementById('minPrice').value);
-  const maxPrice = parseInt(document.getElementById('maxPrice').value);
-  
-  // Uzmi sve kartice proizvoda
-  const cards = document.querySelectorAll('.card');
-  let visibleCount = 0;
-  
-  cards.forEach(card => {
-    let show = true;
-    
-    // Filter po polu
-    if (selectedPol.length > 0) {
-      const cardPol = card.dataset.pol;
-      if (!selectedPol.includes(cardPol)) {
-        show = false;
-      }
-    }
-    
-    // Filter po brendu
-    if (show && selectedBrend.length > 0) {
-      const cardBrend = card.dataset.brend;
-      if (!selectedBrend.includes(cardBrend)) {
-        show = false;
-      }
-    }
-    
-    // Filter po narukvici
-    if (show && selectedNarukvica.length > 0) {
-      const cardNarukvica = card.dataset.narukvica;
-      if (!selectedNarukvica.includes(cardNarukvica)) {
-        show = false;
-      }
-    }
-    
-    // Filter po kategoriji
-    if (show && selectedKategorija.length > 0) {
-      const cardKategorija = card.dataset.kategorija;
-      if (!selectedKategorija.includes(cardKategorija)) {
-        show = false;
-      }
-    }
-    
-    // Filter po boji
-    if (show && selectedBoja.length > 0) {
-      const cardBoja = card.dataset.boja;
-      if (!selectedBoja.includes(cardBoja)) {
-        show = false;
-      }
-    }
-    
-    // Filter po ceni
-    if (show) {
-      const cardPrice = parseInt(card.dataset.price);
-      if (cardPrice < minPrice || cardPrice > maxPrice) {
-        show = false;
-      }
-    }
-    
-    // Prikazi ili sakrij karticu
-    if (show) {
-      card.style.display = '';
-      visibleCount++;
-    } else {
-      card.style.display = 'none';
-    }
-  });
-  
-  // Opciono: prikazi poruku ako nema rezultata
-  const grid = document.getElementById('grid');
-  let noResultsMsg = document.getElementById('noResultsMsg');
-  
-  if (visibleCount === 0) {
-    if (!noResultsMsg) {
-      noResultsMsg = document.createElement('div');
-      noResultsMsg.id = 'noResultsMsg';
-      noResultsMsg.style.textAlign = 'center';
-      noResultsMsg.style.padding = '40px';
-      noResultsMsg.style.fontSize = '18px';
-      noResultsMsg.style.color = '#666';
-      noResultsMsg.innerHTML = '❌ Nema proizvoda koji odgovaraju izabranim filterima.';
-      grid.appendChild(noResultsMsg);
-    }
-  } else {
-    if (noResultsMsg) {
-      noResultsMsg.remove();
-    }
-  }
-  
-  // Zatvori filter panel nakon primene
-  const filterPanel = document.getElementById('filterPanel');
-  const filterToggle = document.getElementById('filterToggle');
-  if (filterPanel) {
-    filterPanel.classList.remove('active');
-    filterToggle.classList.remove('active');
-  }
-  
-  // Prikazi notifikaciju koliko je proizvoda prikazano
-  showNotification(`Prikazano ${visibleCount} od ${cards.length} proizvoda`);
-}
 
-// ======== FUNKCIJA ZA RESETOVANJE FILTERA ========
-function resetFilters() {
-  // Odcekaj sve checkboxove
-  document.querySelectorAll('.filter-panel input[type="checkbox"]').forEach(cb => {
-    cb.checked = false;
+    const closeLoginModal = document.getElementById('closeLoginModal');
+    if(closeLoginModal) {
+      closeLoginModal.addEventListener('click', () => {
+        document.getElementById('loginRequiredModal').style.display = 'none';
+      });
+    }
+
+    const successOk = document.getElementById('successOk');
+    if(successOk) {
+      successOk.addEventListener('click', () => {
+        document.getElementById('successOverlay').style.display = 'none';
+      });
+    }
   });
-  
-  // Resetuj cene na podrazumevane vrednosti
-  document.getElementById('minPrice').value = '0';
-  document.getElementById('maxPrice').value = '999999';
-  
-  // Prikazi sve proizvode
-  const cards = document.querySelectorAll('.card');
-  cards.forEach(card => {
-    card.style.display = '';
-  });
-  
-  // Ukloni poruku o nema rezultata
-  const noResultsMsg = document.getElementById('noResultsMsg');
-  if (noResultsMsg) {
-    noResultsMsg.remove();
-  }
-  
-  showNotification('Svi filteri su resetovani');
-}
-  </script>
+</script>
 
   <style>
     @keyframes slideIn {
@@ -1350,39 +1356,48 @@ function resetFilters() {
       margin-top: 20px;
     }
 
-    /* SMANJENA Duzina dugmeta Filteri */
-.filter-toggle-btn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: auto !important;  /* Umesto 100% */
-  min-width: 150px;        /* Minimalna sirina */
-  max-width: 200px;        /* Maksimalna sirina */
-  padding: 12px 24px;
-  background: #c41e3a !important;
-  color: white !important;
-  border: none !important;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 16px;
-  z-index: 101;
-  position: relative;
-  transition: all 0.3s ease;
-}
+    /* ========== DUGME FILTERI (ISPRAVLJENO) ========== */
+    #filterToggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 12px 24px;
+      background: #c41e3a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      font-family: inherit;
+      z-index: 101;
+      position: relative;
+      transition: all 0.3s ease;
+    }
 
-.filter-toggle-btn:hover {
-  background: #a01830 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(196, 30, 58, 0.3);
-}
+    #filterToggle:hover {
+      background: #a01830;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(196, 30, 58, 0.3);
+    }
 
-/* Opciono: da dugme bude centrirano */
-.filter-toggle-container {
-  display: flex;
-  justify-content: flex-start; /* Ili 'center' ako hoces centrirano */
-  margin-bottom: 20px;
-}
+    #filterToggle .arrow {
+      transition: transform 0.3s ease;
+      display: inline-block;
+    }
+
+    #filterToggle.active .arrow {
+      transform: rotate(180deg);
+    }
+
+    /* Kontejner za filtere */
+    .filter-toggle-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    /* Filter panel */
     .filter-panel {
       display: none;
       position: absolute;
@@ -1402,14 +1417,6 @@ function resetFilters() {
 
     .filter-panel.active {
       display: block;
-    }
-
-    .filter-toggle-btn.active .arrow {
-      transform: rotate(180deg);
-    }
-
-    .arrow {
-      transition: transform 0.3s ease;
     }
 
     /* Osiguraj da je modal najviši element */
@@ -1434,6 +1441,7 @@ function resetFilters() {
       display: none !important;
     }
 
+    /* ========== MOBILNI RESPONSIVE ========== */
     @media (max-width: 768px) {
       .modal__dialog {
         grid-template-columns: 1fr;
@@ -1448,7 +1456,51 @@ function resetFilters() {
         width: 100%;
         right: -100%;
       }
+
+      /* Filter panel na mobilnom - pojavljuje se odozdo */
+      .filter-panel {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin-top: 0;
+        border-radius: 20px 20px 0 0;
+        max-height: 80vh;
+        z-index: 2000;
+      }
+
+      /* Dugme filtera na mobilnom - fiksirano na vrhu pri skrolovanju */
+      #filterToggle {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+      }
+
+      /* Da filteri ne bi smetali pri otvorenom modalu */
+      body.modal-open .filter-panel {
+        display: none !important;
+      }
     }
-  </style>
+
+    /* Dodatno za manje telefone */
+    @media (max-width: 480px) {
+      .filter-panel {
+        padding: 15px;
+        max-height: 85vh;
+      }
+
+      #filterToggle {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+
+      .chip {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+    }
+</style>
 </body>
 </html>
