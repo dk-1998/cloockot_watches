@@ -142,6 +142,7 @@
             </fieldset>
           </div>
           <button id="applyFiltersBtn" type="button" onclick="applyFilters()" class="btn btn-danger">Primeni filter</button>
+          <button id="resetFiltersBtn" type="button" onclick="resetFilters()" class="btn" style="margin-top: 10px; background: #666; color: white;">Resetuj filtere</button>
         </form>
       </div>
     </div>
@@ -924,6 +925,140 @@
       }
     });
   });
+  // ======== FUNKCIJA ZA FILTRIRANJE ========
+function applyFilters() {
+  // Uzmi sve vrednosti iz filtera
+  const selectedPol = Array.from(document.querySelectorAll('input[name="pol"]:checked')).map(cb => cb.value);
+  const selectedBrend = Array.from(document.querySelectorAll('input[name="brend"]:checked')).map(cb => cb.value);
+  const selectedNarukvica = Array.from(document.querySelectorAll('input[name="narukvica"]:checked')).map(cb => cb.value);
+  const selectedKategorija = Array.from(document.querySelectorAll('input[name="kategorija"]:checked')).map(cb => cb.value);
+  const selectedBoja = Array.from(document.querySelectorAll('input[name="boja"]:checked')).map(cb => cb.value);
+  
+  const minPrice = parseInt(document.getElementById('minPrice').value);
+  const maxPrice = parseInt(document.getElementById('maxPrice').value);
+  
+  // Uzmi sve kartice proizvoda
+  const cards = document.querySelectorAll('.card');
+  let visibleCount = 0;
+  
+  cards.forEach(card => {
+    let show = true;
+    
+    // Filter po polu
+    if (selectedPol.length > 0) {
+      const cardPol = card.dataset.pol;
+      if (!selectedPol.includes(cardPol)) {
+        show = false;
+      }
+    }
+    
+    // Filter po brendu
+    if (show && selectedBrend.length > 0) {
+      const cardBrend = card.dataset.brend;
+      if (!selectedBrend.includes(cardBrend)) {
+        show = false;
+      }
+    }
+    
+    // Filter po narukvici
+    if (show && selectedNarukvica.length > 0) {
+      const cardNarukvica = card.dataset.narukvica;
+      if (!selectedNarukvica.includes(cardNarukvica)) {
+        show = false;
+      }
+    }
+    
+    // Filter po kategoriji
+    if (show && selectedKategorija.length > 0) {
+      const cardKategorija = card.dataset.kategorija;
+      if (!selectedKategorija.includes(cardKategorija)) {
+        show = false;
+      }
+    }
+    
+    // Filter po boji
+    if (show && selectedBoja.length > 0) {
+      const cardBoja = card.dataset.boja;
+      if (!selectedBoja.includes(cardBoja)) {
+        show = false;
+      }
+    }
+    
+    // Filter po ceni
+    if (show) {
+      const cardPrice = parseInt(card.dataset.price);
+      if (cardPrice < minPrice || cardPrice > maxPrice) {
+        show = false;
+      }
+    }
+    
+    // Prikazi ili sakrij karticu
+    if (show) {
+      card.style.display = '';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  
+  // Opciono: prikazi poruku ako nema rezultata
+  const grid = document.getElementById('grid');
+  let noResultsMsg = document.getElementById('noResultsMsg');
+  
+  if (visibleCount === 0) {
+    if (!noResultsMsg) {
+      noResultsMsg = document.createElement('div');
+      noResultsMsg.id = 'noResultsMsg';
+      noResultsMsg.style.textAlign = 'center';
+      noResultsMsg.style.padding = '40px';
+      noResultsMsg.style.fontSize = '18px';
+      noResultsMsg.style.color = '#666';
+      noResultsMsg.innerHTML = '❌ Nema proizvoda koji odgovaraju izabranim filterima.';
+      grid.appendChild(noResultsMsg);
+    }
+  } else {
+    if (noResultsMsg) {
+      noResultsMsg.remove();
+    }
+  }
+  
+  // Zatvori filter panel nakon primene
+  const filterPanel = document.getElementById('filterPanel');
+  const filterToggle = document.getElementById('filterToggle');
+  if (filterPanel) {
+    filterPanel.classList.remove('active');
+    filterToggle.classList.remove('active');
+  }
+  
+  // Prikazi notifikaciju koliko je proizvoda prikazano
+  showNotification(`Prikazano ${visibleCount} od ${cards.length} proizvoda`);
+}
+
+// ======== FUNKCIJA ZA RESETOVANJE FILTERA ========
+function resetFilters() {
+  // Odcekaj sve checkboxove
+  document.querySelectorAll('.filter-panel input[type="checkbox"]').forEach(cb => {
+    cb.checked = false;
+  });
+  
+  // Resetuj cene na podrazumevane vrednosti
+  document.getElementById('minPrice').value = '0';
+  document.getElementById('maxPrice').value = '999999';
+  
+  // Prikazi sve proizvode
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    card.style.display = '';
+  });
+  
+  // Ukloni poruku o nema rezultata
+  const noResultsMsg = document.getElementById('noResultsMsg');
+  if (noResultsMsg) {
+    noResultsMsg.remove();
+  }
+  
+  showNotification('Svi filteri su resetovani');
+}
   </script>
 
   <style>
