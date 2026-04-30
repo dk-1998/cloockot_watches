@@ -44,49 +44,92 @@
     <div class="breadcrumb">Početna / Satovi</div>
     <h1 class="page-title">Satovi</h1>
     
-    <div class="filter-toggle-container">
-      <button id="filterToggle" class="btn primary" type="button">
-        <span>Filteri</span>
-        <span class="arrow">▼</span>
-      </button>
-      
-      <div id="filterPanel" class="filter-panel">
-        <form class="filterbar" id="filterForm" onsubmit="return false;">
-          <div>
-            <fieldset class="f-group">
-              <legend>Pol</legend>
+   <div class="filter-toggle-container">
+  <button id="filterToggle" class="btn filter-btn" type="button">
+    <svg class="filter-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polygon points="22 3 2 3 10 13 10 21 14 18 14 13 22 3"></polygon>
+    </svg>
+    <span>Filteri</span>
+    <span class="badge-count" id="filterBadge" style="display: none;">0</span>
+  </button>
+  
+  <!-- Mobilni drawer za filtere -->
+  <div id="filterDrawer" class="filter-drawer">
+    <div class="filter-drawer-header">
+      <h3>Filteri</h3>
+      <button id="closeDrawerBtn" class="close-drawer-btn">✕</button>
+    </div>
+    <div class="filter-drawer-content">
+      <form class="filterbar" id="filterForm" onsubmit="return false;">
+        <div class="filter-sections">
+          <div class="filter-section">
+            <div class="filter-section-header" data-section="pol">
+              <span>Pol</span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+            <div class="filter-section-content" id="section-pol">
               <label class="chip"><input type="checkbox" name="pol" value="muski"> Muški</label>
               <label class="chip"><input type="checkbox" name="pol" value="zenski"> Ženski</label>
               <label class="chip"><input type="checkbox" name="pol" value="unisex"> Unisex</label>
-            </fieldset>
+            </div>
+          </div>
 
-            <fieldset class="f-group">
-              <legend>Brend</legend>
+          <div class="filter-section">
+            <div class="filter-section-header" data-section="brend">
+              <span>Brend</span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+            <div class="filter-section-content" id="section-brend">
               <label class="chip"><input type="checkbox" name="brend" value="casio"> Casio</label>
               <label class="chip"><input type="checkbox" name="brend" value="boss"> Boss</label>
               <label class="chip"><input type="checkbox" name="brend" value="amalys"> Amalys</label>
               <label class="chip"><input type="checkbox" name="brend" value="anne-klein"> Anne Klein</label>
               <label class="chip"><input type="checkbox" name="brend" value="garmin"> Garmin</label>
               <label class="chip"><input type="checkbox" name="brend" value="naviforce"> Naviforce</label>
-            </fieldset>
+            </div>
+          </div>
 
-            <fieldset class="f-group">
-              <legend>Narukvica</legend>
+          <div class="filter-section">
+            <div class="filter-section-header" data-section="narukvica">
+              <span>Narukvica</span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+            <div class="filter-section-content" id="section-narukvica">
               <label class="chip"><input type="checkbox" name="narukvica" value="metalni"> Metalni</label>
               <label class="chip"><input type="checkbox" name="narukvica" value="kozni"> Kožni</label>
               <label class="chip"><input type="checkbox" name="narukvica" value="platneni"> Platneni</label>
               <label class="chip"><input type="checkbox" name="narukvica" value="mesh"> Mesh</label>
               <label class="chip"><input type="checkbox" name="narukvica" value="smola"> Smola</label>
-            </fieldset>
+            </div>
+          </div>
 
-            <fieldset class="f-group">
-              <legend>Kategorija</legend>
+          <div class="filter-section">
+            <div class="filter-section-header" data-section="kategorija">
+              <span>Kategorija</span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+            <div class="filter-section-content" id="section-kategorija">
               <label class="chip"><input type="checkbox" name="kategorija" value="novo"> Novo</label>
               <label class="chip"><input type="checkbox" name="kategorija" value="ponuda-oglasi"> Polovno</label>
-            </fieldset>
+            </div>
+          </div>
 
-            <fieldset class="f-group">
-              <legend>Boja</legend>
+          <div class="filter-section">
+            <div class="filter-section-header" data-section="boja">
+              <span>Boja</span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+            <div class="filter-section-content" id="section-boja">
               <label class="chip"><input type="checkbox" name="boja" value="crni"> Crni</label>
               <label class="chip"><input type="checkbox" name="boja" value="srebrni"> Srebrni</label>
               <label class="chip"><input type="checkbox" name="boja" value="zlatni"> Zlatni</label>
@@ -95,57 +138,72 @@
               <label class="chip"><input type="checkbox" name="boja" value="crveni"> Crveni</label>
               <label class="chip"><input type="checkbox" name="boja" value="braon"> Braon</label>
               <label class="chip"><input type="checkbox" name="boja" value="dvobojni"> Dvobojni</label>
-            </fieldset>
-
-            <fieldset class="f-group">
-              <legend>Cena (RSD)</legend>
-              <div style="display: flex; gap: 10px; align-items: center;">
-                <label style="display: flex; flex-direction: column; align-items: center; font-size: 12px;">
-                  Od:
-                  <select id="minPrice" style="margin-top: 4px;">
-                    <option value="0">0</option>
-                    <option value="9990">9.990</option>
-                    <option value="10000">10.000</option>
-                    <option value="12490">12.490</option>
-                    <option value="12990">12.990</option>
-                    <option value="13990">13.990</option>
-                    <option value="14990">14.990</option>
-                    <option value="15490">15.490</option>
-                    <option value="17990">17.990</option>
-                    <option value="19490">19.490</option>
-                    <option value="25990">25.990</option>
-                    <option value="28990">28.990</option>
-                    <option value="32990">32.990</option>
-                    <option value="33990">33.990</option>
-                  </select>
-                </label>
-                <label style="display: flex; flex-direction: column; align-items: center; font-size: 12px;">
-                  Do:
-                  <select id="maxPrice" style="margin-top: 4px;">
-                    <option value="999999">Sve</option>
-                    <option value="9990">9.990</option>
-                    <option value="10000">10.000</option>
-                    <option value="12490">12.490</option>
-                    <option value="12990">12.990</option>
-                    <option value="13990">13.990</option>
-                    <option value="14990">14.990</option>
-                    <option value="15490">15.490</option>
-                    <option value="17990">17.990</option>
-                    <option value="19490">19.490</option>
-                    <option value="25990">25.990</option>
-                    <option value="28990">28.990</option>
-                    <option value="32990">32.990</option>
-                    <option value="33990">33.990</option>
-                  </select>
-                </label>
-              </div>
-            </fieldset>
+            </div>
           </div>
-          <button id="applyFiltersBtn" type="button" onclick="applyFilters()" class="btn btn-danger">Primeni filter</button>
-          <button id="resetFiltersBtn" type="button" onclick="resetFilters()" class="btn" style="margin-top: 10px; background: #666; color: white;">Resetuj filtere</button>
-        </form>
-      </div>
+
+          <div class="filter-section">
+            <div class="filter-section-header" data-section="cena">
+              <span>Cena (RSD)</span>
+              <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+            <div class="filter-section-content" id="section-cena">
+              <div class="price-range">
+                <div class="price-inputs">
+                  <label>
+                    <span>Od:</span>
+                    <select id="minPrice">
+                      <option value="0">0</option>
+                      <option value="9990">9.990</option>
+                      <option value="10000">10.000</option>
+                      <option value="12490">12.490</option>
+                      <option value="12990">12.990</option>
+                      <option value="13990">13.990</option>
+                      <option value="14990">14.990</option>
+                      <option value="15490">15.490</option>
+                      <option value="17990">17.990</option>
+                      <option value="19490">19.490</option>
+                      <option value="25990">25.990</option>
+                      <option value="28990">28.990</option>
+                      <option value="32990">32.990</option>
+                      <option value="33990">33.990</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Do:</span>
+                    <select id="maxPrice">
+                      <option value="999999">Sve</option>
+                      <option value="9990">9.990</option>
+                      <option value="10000">10.000</option>
+                      <option value="12490">12.490</option>
+                      <option value="12990">12.990</option>
+                      <option value="13990">13.990</option>
+                      <option value="14990">14.990</option>
+                      <option value="15490">15.490</option>
+                      <option value="17990">17.990</option>
+                      <option value="19490">19.490</option>
+                      <option value="25990">25.990</option>
+                      <option value="28990">28.990</option>
+                      <option value="32990">32.990</option>
+                      <option value="33990">33.990</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-actions">
+          <button id="resetFiltersBtn" type="button" class="btn reset-btn">Resetuj</button>
+          <button id="applyFiltersBtn" type="button" class="btn primary apply-btn">Primeni filter</button>
+        </div>
+      </form>
     </div>
+  </div>
+  <div id="filterOverlay" class="filter-overlay" style="display: none;"></div>
+</div>
 
     <div class="grid" id="grid">
       <!-- 1. CASIO ZLATNI -->
@@ -605,652 +663,1233 @@
   <!-- OVERLAY ZA FILTER NA MOBILNOM -->
   <div id="filterOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:998;"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script>
+ <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
     // ======== GLOBALNE PROMENLJIVE ========
     let currentModalProduct = null;
     let swiperInstance = null;
     let currentCart = [];
-    let filterPanelOpen = false;
+    let activeFiltersCount = 0;
 
     // ======== FUNKCIJE ZA KORPU ========
     function loadCart() {
-      const saved = localStorage.getItem('cloockotCart');
-      currentCart = saved ? JSON.parse(saved) : [];
-      updateCartBadge();
-      updateCartDisplay();
+        const saved = localStorage.getItem('cloockotCart');
+        currentCart = saved ? JSON.parse(saved) : [];
+        updateCartBadge();
+        updateCartDisplay();
     }
 
     function saveCart() {
-      localStorage.setItem('cloockotCart', JSON.stringify(currentCart));
-      updateCartBadge();
-      updateCartDisplay();
+        localStorage.setItem('cloockotCart', JSON.stringify(currentCart));
+        updateCartBadge();
+        updateCartDisplay();
     }
 
     function updateCartBadge() {
-      const total = currentCart.reduce((sum, item) => sum + item.quantity, 0);
-      const badge = document.getElementById('cartBadge');
-      if (badge) {
-        badge.textContent = total;
-        badge.style.display = total > 0 ? 'inline-block' : 'none';
-      }
+        const total = currentCart.reduce((sum, item) => sum + item.quantity, 0);
+        const badge = document.getElementById('cartBadge');
+        if (badge) {
+            badge.textContent = total;
+            badge.style.display = total > 0 ? 'inline-block' : 'none';
+        }
     }
 
     function updateCartDisplay() {
-      const cartItemsDiv = document.getElementById('cartItems');
-      const cartEmptyDiv = document.getElementById('cartEmpty');
-      const subtotalSpan = document.getElementById('cartSubtotal');
+        const cartItemsDiv = document.getElementById('cartItems');
+        const cartEmptyDiv = document.getElementById('cartEmpty');
+        const subtotalSpan = document.getElementById('cartSubtotal');
 
-      if (!cartItemsDiv) return;
+        if (!cartItemsDiv) return;
 
-      if (currentCart.length === 0) {
-        cartItemsDiv.innerHTML = '';
-        cartEmptyDiv.style.display = 'block';
-        subtotalSpan.textContent = '0 RSD';
-        return;
-      }
+        if (currentCart.length === 0) {
+            cartItemsDiv.innerHTML = '';
+            cartEmptyDiv.style.display = 'block';
+            subtotalSpan.textContent = '0 RSD';
+            return;
+        }
 
-      cartEmptyDiv.style.display = 'none';
+        cartEmptyDiv.style.display = 'none';
 
-      let subtotal = 0;
-      let html = '';
+        let subtotal = 0;
+        let html = '';
 
-      currentCart.forEach((item, index) => {
-        const itemTotal = item.price * item.quantity;
-        subtotal += itemTotal;
+        currentCart.forEach((item, index) => {
+            const itemTotal = item.price * item.quantity;
+            subtotal += itemTotal;
 
-        html += `
-          <div style="display:flex;gap:15px;padding:10px 0;border-bottom:1px solid #eee;">
-            <img src="${item.image}" style="width:70px;height:70px;object-fit:cover;border-radius:8px;">
-            <div style="flex:1;">
-              <div style="font-weight:600;">${item.title}</div>
-              <div style="color:#777;font-size:13px;">${item.price.toLocaleString()} RSD</div>
-              <div style="display:flex;gap:10px;margin-top:8px;align-items:center;">
-                <button class="btn-qty" data-index="${index}" data-delta="-1">-</button>
-                <span>${item.quantity}</span>
-                <button class="btn-qty" data-index="${index}" data-delta="1">+</button>
-                <button class="btn-remove" data-index="${index}">✕</button>
-              </div>
-            </div>
-            <div style="font-weight:600;">
-              ${itemTotal.toLocaleString()} RSD
-            </div>
-          </div>
-        `;
-      });
-
-      cartItemsDiv.innerHTML = html;
-      subtotalSpan.textContent = `${subtotal.toLocaleString()} RSD`;
-
-      document.querySelectorAll('.btn-qty').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const index = parseInt(btn.dataset.index);
-          const delta = parseInt(btn.dataset.delta);
-          currentCart[index].quantity += delta;
-          if (currentCart[index].quantity <= 0) {
-            currentCart.splice(index, 1);
-          }
-          saveCart();
+            html += `
+                <div style="display:flex;gap:15px;padding:10px 0;border-bottom:1px solid #eee;">
+                    <img src="${item.image}" style="width:70px;height:70px;object-fit:cover;border-radius:8px;">
+                    <div style="flex:1;">
+                        <div style="font-weight:600;">${item.title}</div>
+                        <div style="color:#777;font-size:13px;">${item.price.toLocaleString()} RSD</div>
+                        <div style="display:flex;gap:10px;margin-top:8px;align-items:center;">
+                            <button class="btn-qty" data-index="${index}" data-delta="-1">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="btn-qty" data-index="${index}" data-delta="1">+</button>
+                            <button class="btn-remove" data-index="${index}">✕</button>
+                        </div>
+                    </div>
+                    <div style="font-weight:600;">
+                        ${itemTotal.toLocaleString()} RSD
+                    </div>
+                </div>
+            `;
         });
-      });
 
-      document.querySelectorAll('.btn-remove').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const index = parseInt(btn.dataset.index);
-          currentCart.splice(index, 1);
-          saveCart();
+        cartItemsDiv.innerHTML = html;
+        subtotalSpan.textContent = `${subtotal.toLocaleString()} RSD`;
+
+        document.querySelectorAll('.btn-qty').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const index = parseInt(btn.dataset.index);
+                const delta = parseInt(btn.dataset.delta);
+                currentCart[index].quantity += delta;
+                if (currentCart[index].quantity <= 0) {
+                    currentCart.splice(index, 1);
+                }
+                saveCart();
+            });
         });
-      });
+
+        document.querySelectorAll('.btn-remove').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const index = parseInt(btn.dataset.index);
+                currentCart.splice(index, 1);
+                saveCart();
+            });
+        });
     }
 
     function addToCart(product) {
-      const isLoggedIn = {% if request.session.korisnicko_ime %}true{% else %}false{% endif %};
+        const isLoggedIn = {% if request.session.korisnicko_ime %}true{% else %}false{% endif %};
 
-      if (!isLoggedIn) {
-        document.getElementById('loginRequiredModal').style.display = 'flex';
-        return;
-      }
+        if (!isLoggedIn) {
+            document.getElementById('loginRequiredModal').style.display = 'flex';
+            return;
+        }
 
-      const existing = currentCart.find(item => item.id === product.id);
-      if (existing) {
-        existing.quantity++;
-      } else {
-        currentCart.push({ ...product, quantity: 1 });
-      }
-      saveCart();
-      showNotification(`Dodato: ${product.title}`);
+        const existing = currentCart.find(item => item.id === product.id);
+        if (existing) {
+            existing.quantity++;
+        } else {
+            currentCart.push({ ...product, quantity: 1 });
+        }
+        saveCart();
+        showNotification(`Dodato: ${product.title}`);
     }
 
     function showNotification(message) {
-      const div = document.createElement('div');
-      div.className = 'notification';
-      div.textContent = message;
-      document.body.appendChild(div);
-      setTimeout(() => div.remove(), 2500);
+        const div = document.createElement('div');
+        div.className = 'notification';
+        div.textContent = message;
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 2500);
     }
 
-    // ======== TOGGLE FILTER PANELA — ISPRAVLJENO ========
-    function openFilterPanel() {
-      const filterPanel = document.getElementById('filterPanel');
-      const filterToggle = document.getElementById('filterToggle');
-      const filterOverlay = document.getElementById('filterOverlay');
-      filterPanel.classList.add('active');
-      filterToggle.classList.add('active');
-      filterPanelOpen = true;
-      // Na mobilnom prikaži overlay ispod panela
-      if (window.innerWidth <= 768) {
-        filterOverlay.style.display = 'block';
-      }
+    // ======== FUNKCIJE ZA FILTERE (MOBILNI DRAWER) ========
+    function updateFilterBadge() {
+        const badge = document.getElementById('filterBadge');
+        if (badge) {
+            if (activeFiltersCount > 0) {
+                badge.textContent = activeFiltersCount;
+                badge.style.display = 'inline-flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
     }
 
-    function closeFilterPanel() {
-      const filterPanel = document.getElementById('filterPanel');
-      const filterToggle = document.getElementById('filterToggle');
-      const filterOverlay = document.getElementById('filterOverlay');
-      filterPanel.classList.remove('active');
-      filterToggle.classList.remove('active');
-      filterPanelOpen = false;
-      filterOverlay.style.display = 'none';
+    function countActiveFilters() {
+        const checkboxes = document.querySelectorAll('.filter-drawer input[type="checkbox"]');
+        let count = 0;
+        checkboxes.forEach(cb => {
+            if (cb.checked) count++;
+        });
+        
+        const minPrice = document.getElementById('minPrice');
+        const maxPrice = document.getElementById('maxPrice');
+        
+        if (minPrice && minPrice.value !== '0') count++;
+        if (maxPrice && maxPrice.value !== '999999') count++;
+        
+        activeFiltersCount = count;
+        updateFilterBadge();
+        return count;
+    }
+
+    function openFilterDrawer() {
+        const drawer = document.getElementById('filterDrawer');
+        const overlay = document.getElementById('filterOverlay');
+        
+        if (drawer) {
+            drawer.classList.add('open');
+        }
+        if (overlay) {
+            overlay.style.display = 'block';
+        }
+        document.body.style.overflow = 'hidden';
+        
+        countActiveFilters();
+    }
+
+    function closeFilterDrawer() {
+        const drawer = document.getElementById('filterDrawer');
+        const overlay = document.getElementById('filterOverlay');
+        
+        if (drawer) {
+            drawer.classList.remove('open');
+        }
+        if (overlay) {
+            overlay.style.display = 'none';
+        }
+        document.body.style.overflow = '';
     }
 
     function initFilters() {
-      const filterToggle = document.getElementById('filterToggle');
-      const filterPanel = document.getElementById('filterPanel');
-      const filterOverlay = document.getElementById('filterOverlay');
-
-      if (!filterToggle || !filterPanel) return;
-
-      // Direktno dodavanje event listenera — bez kloniranja
-      filterToggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        if (filterPanelOpen) {
-          closeFilterPanel();
-        } else {
-          openFilterPanel();
-        }
-      });
-
-      // Klik na overlay zatvara panel na mobilnom
-      filterOverlay.addEventListener('click', function() {
-        closeFilterPanel();
-      });
-
-      // Klik van panela i dugmeta zatvara panel (desktop)
-      document.addEventListener('click', function(e) {
-        if (!filterPanelOpen) return;
-        if (!filterToggle.contains(e.target) && !filterPanel.contains(e.target)) {
-          closeFilterPanel();
-        }
-      });
-    }
-
-    // ======== ZATVARANJE MODAL PROZORA ========
-    function closeModal() {
-      const modal = document.getElementById('productModal');
-      if (modal) {
-        modal.style.display = 'none';
-        document.body.classList.remove('modal-open');
-        if (swiperInstance) {
-          swiperInstance.autoplay?.stop();
-        }
-      }
-    }
-
-    // ======== MODAL PROIZVODA ========
-    function openProductModal(card) {
-      // Zatvori filter pre otvaranja modala
-      closeFilterPanel();
-
-      const images = JSON.parse(card.dataset.images);
-      const specs = JSON.parse(card.dataset.spec);
-
-      currentModalProduct = {
-        id: card.dataset.id,
-        title: card.dataset.title,
-        brand: card.dataset.brand,
-        price: parseInt(card.dataset.price),
-        image: images[0]
-      };
-
-      document.getElementById('modalBrand').textContent = card.dataset.brand;
-      document.getElementById('modalTitle').textContent = card.dataset.title;
-      document.getElementById('modalPrice').textContent = `${parseInt(card.dataset.price).toLocaleString()} RSD`;
-      document.getElementById('modalDesc').textContent = card.dataset.desc;
-
-      let specHtml = '';
-      for (let key in specs) {
-        specHtml += `<li><strong>${key}:</strong> ${specs[key]}</li>`;
-      }
-      document.getElementById('modalSpecs').innerHTML = specHtml;
-
-      const wrapper = document.getElementById('modalSwiperWrapper');
-      wrapper.innerHTML = images.map(src => `
-        <div class="swiper-slide">
-          <img src="${src}" style="width:100%;height:100%;object-fit:contain;">
-        </div>
-      `).join('');
-
-      const modal = document.getElementById('productModal');
-      modal.style.display = 'flex';
-      document.body.classList.add('modal-open');
-
-      setTimeout(() => {
-        if (swiperInstance) swiperInstance.destroy();
-        swiperInstance = new Swiper('#modalSwiper', {
-          loop: true,
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-          },
-          pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-          }
+        const filterToggle = document.getElementById('filterToggle');
+        const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+        const overlay = document.getElementById('filterOverlay');
+        const applyBtn = document.getElementById('applyFiltersBtn');
+        const resetBtn = document.getElementById('resetFiltersBtn');
+        
+        if (!filterToggle) return;
+        
+        // Otvaranje drawer-a
+        filterToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openFilterDrawer();
         });
-      }, 100);
+        
+        // Zatvaranje drawer-a
+        if (closeDrawerBtn) {
+            closeDrawerBtn.addEventListener('click', closeFilterDrawer);
+        }
+        
+        if (overlay) {
+            overlay.addEventListener('click', closeFilterDrawer);
+        }
+        
+        // Accordion funkcionalnost za sekcije
+        const sectionHeaders = document.querySelectorAll('.filter-section-header');
+        sectionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const section = header.closest('.filter-section');
+                if (section) {
+                    section.classList.toggle('expanded');
+                }
+            });
+        });
+        
+        // Praćenje promena na checkbox-ovima za badge
+        const checkboxes = document.querySelectorAll('.filter-drawer input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                countActiveFilters();
+            });
+        });
+        
+        const minPrice = document.getElementById('minPrice');
+        const maxPrice = document.getElementById('maxPrice');
+        
+        if (minPrice) {
+            minPrice.addEventListener('change', countActiveFilters);
+        }
+        if (maxPrice) {
+            maxPrice.addEventListener('change', countActiveFilters);
+        }
+        
+        // Primeri filtera
+        if (applyBtn) {
+            applyBtn.addEventListener('click', () => {
+                applyFilters();
+                closeFilterDrawer();
+            });
+        }
+        
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                resetFilters();
+                countActiveFilters();
+            });
+        }
+        
+        // Inicijalno prebrojavanje aktivnih filtera
+        countActiveFilters();
     }
 
     // ======== FUNKCIJA ZA FILTRIRANJE ========
     window.applyFilters = function() {
-      const selectedPol = Array.from(document.querySelectorAll('input[name="pol"]:checked')).map(cb => cb.value);
-      const selectedBrend = Array.from(document.querySelectorAll('input[name="brend"]:checked')).map(cb => cb.value);
-      const selectedNarukvica = Array.from(document.querySelectorAll('input[name="narukvica"]:checked')).map(cb => cb.value);
-      const selectedKategorija = Array.from(document.querySelectorAll('input[name="kategorija"]:checked')).map(cb => cb.value);
-      const selectedBoja = Array.from(document.querySelectorAll('input[name="boja"]:checked')).map(cb => cb.value);
+        const selectedPol = Array.from(document.querySelectorAll('input[name="pol"]:checked')).map(cb => cb.value);
+        const selectedBrend = Array.from(document.querySelectorAll('input[name="brend"]:checked')).map(cb => cb.value);
+        const selectedNarukvica = Array.from(document.querySelectorAll('input[name="narukvica"]:checked')).map(cb => cb.value);
+        const selectedKategorija = Array.from(document.querySelectorAll('input[name="kategorija"]:checked')).map(cb => cb.value);
+        const selectedBoja = Array.from(document.querySelectorAll('input[name="boja"]:checked')).map(cb => cb.value);
 
-      const minPrice = parseInt(document.getElementById('minPrice').value);
-      const maxPrice = parseInt(document.getElementById('maxPrice').value);
+        const minPrice = parseInt(document.getElementById('minPrice').value);
+        const maxPrice = parseInt(document.getElementById('maxPrice').value);
 
-      const cards = document.querySelectorAll('.card');
-      let visibleCount = 0;
+        const cards = document.querySelectorAll('.card');
+        let visibleCount = 0;
 
-      cards.forEach(card => {
-        let show = true;
+        cards.forEach(card => {
+            let show = true;
 
-        if (selectedPol.length > 0 && !selectedPol.includes(card.dataset.pol)) show = false;
-        if (show && selectedBrend.length > 0 && !selectedBrend.includes(card.dataset.brend)) show = false;
-        if (show && selectedNarukvica.length > 0 && !selectedNarukvica.includes(card.dataset.narukvica)) show = false;
-        if (show && selectedKategorija.length > 0 && !selectedKategorija.includes(card.dataset.kategorija)) show = false;
-        if (show && selectedBoja.length > 0 && !selectedBoja.includes(card.dataset.boja)) show = false;
+            if (selectedPol.length > 0 && !selectedPol.includes(card.dataset.pol)) show = false;
+            if (show && selectedBrend.length > 0 && !selectedBrend.includes(card.dataset.brend)) show = false;
+            if (show && selectedNarukvica.length > 0 && !selectedNarukvica.includes(card.dataset.narukvica)) show = false;
+            if (show && selectedKategorija.length > 0 && !selectedKategorija.includes(card.dataset.kategorija)) show = false;
+            if (show && selectedBoja.length > 0 && !selectedBoja.includes(card.dataset.boja)) show = false;
 
-        if (show) {
-          const cardPrice = parseInt(card.dataset.price);
-          if (cardPrice < minPrice || cardPrice > maxPrice) show = false;
+            if (show) {
+                const cardPrice = parseInt(card.dataset.price);
+                if (cardPrice < minPrice || cardPrice > maxPrice) show = false;
+            }
+
+            card.style.display = show ? '' : 'none';
+            if (show) visibleCount++;
+        });
+
+        const grid = document.getElementById('grid');
+        let noResultsMsg = document.getElementById('noResultsMsg');
+
+        if (visibleCount === 0) {
+            if (!noResultsMsg) {
+                noResultsMsg = document.createElement('div');
+                noResultsMsg.id = 'noResultsMsg';
+                noResultsMsg.style.cssText = 'text-align:center;padding:40px;font-size:18px;color:#666;';
+                noResultsMsg.innerHTML = '❌ Nema proizvoda koji odgovaraju izabranim filterima.';
+                grid.appendChild(noResultsMsg);
+            }
+        } else {
+            if (noResultsMsg) noResultsMsg.remove();
         }
 
-        card.style.display = show ? '' : 'none';
-        if (show) visibleCount++;
-      });
-
-      const grid = document.getElementById('grid');
-      let noResultsMsg = document.getElementById('noResultsMsg');
-
-      if (visibleCount === 0) {
-        if (!noResultsMsg) {
-          noResultsMsg = document.createElement('div');
-          noResultsMsg.id = 'noResultsMsg';
-          noResultsMsg.style.cssText = 'text-align:center;padding:40px;font-size:18px;color:#666;';
-          noResultsMsg.innerHTML = '❌ Nema proizvoda koji odgovaraju izabranim filterima.';
-          grid.appendChild(noResultsMsg);
-        }
-      } else {
-        if (noResultsMsg) noResultsMsg.remove();
-      }
-
-      closeFilterPanel();
-      showNotification(`Prikazano ${visibleCount} od ${cards.length} proizvoda`);
+        countActiveFilters();
+        showNotification(`Prikazano ${visibleCount} od ${cards.length} proizvoda`);
     };
 
     // ======== FUNKCIJA ZA RESETOVANJE FILTERA ========
     window.resetFilters = function() {
-      document.querySelectorAll('.filter-panel input[type="checkbox"]').forEach(cb => {
-        cb.checked = false;
-      });
-      document.getElementById('minPrice').value = '0';
-      document.getElementById('maxPrice').value = '999999';
+        document.querySelectorAll('.filter-drawer input[type="checkbox"]').forEach(cb => {
+            cb.checked = false;
+        });
+        
+        const minPrice = document.getElementById('minPrice');
+        const maxPrice = document.getElementById('maxPrice');
+        
+        if (minPrice) minPrice.value = '0';
+        if (maxPrice) maxPrice.value = '999999';
 
-      document.querySelectorAll('.card').forEach(card => {
-        card.style.display = '';
-      });
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.display = '';
+        });
 
-      const noResultsMsg = document.getElementById('noResultsMsg');
-      if (noResultsMsg) noResultsMsg.remove();
+        const noResultsMsg = document.getElementById('noResultsMsg');
+        if (noResultsMsg) noResultsMsg.remove();
 
-      showNotification('Svi filteri su resetovani');
+        countActiveFilters();
+        showNotification('Svi filteri su resetovani');
     };
+
+    // ======== ZATVARANJE MODAL PROZORA ========
+    function closeModal() {
+        const modal = document.getElementById('productModal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.classList.remove('modal-open');
+            if (swiperInstance) {
+                swiperInstance.autoplay?.stop();
+            }
+        }
+    }
+
+    // ======== MODAL PROIZVODA ========
+    function openProductModal(card) {
+        // Zatvori filter drawer pre otvaranja modala
+        closeFilterDrawer();
+
+        const images = JSON.parse(card.dataset.images);
+        const specs = JSON.parse(card.dataset.spec);
+
+        currentModalProduct = {
+            id: card.dataset.id,
+            title: card.dataset.title,
+            brand: card.dataset.brand,
+            price: parseInt(card.dataset.price),
+            image: images[0]
+        };
+
+        document.getElementById('modalBrand').textContent = card.dataset.brand;
+        document.getElementById('modalTitle').textContent = card.dataset.title;
+        document.getElementById('modalPrice').textContent = `${parseInt(card.dataset.price).toLocaleString()} RSD`;
+        document.getElementById('modalDesc').textContent = card.dataset.desc;
+
+        let specHtml = '';
+        for (let key in specs) {
+            specHtml += `<li><strong>${key}:</strong> ${specs[key]}</li>`;
+        }
+        document.getElementById('modalSpecs').innerHTML = specHtml;
+
+        const wrapper = document.getElementById('modalSwiperWrapper');
+        wrapper.innerHTML = images.map(src => `
+            <div class="swiper-slide">
+                <img src="${src}" style="width:100%;height:100%;object-fit:contain;">
+            </div>
+        `).join('');
+
+        const modal = document.getElementById('productModal');
+        modal.style.display = 'flex';
+        document.body.classList.add('modal-open');
+
+        setTimeout(() => {
+            if (swiperInstance) swiperInstance.destroy();
+            swiperInstance = new Swiper('#modalSwiper', {
+                loop: true,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                }
+            });
+        }, 100);
+    }
 
     // ======== CHECKOUT ========
     async function checkout() {
-      if (currentCart.length === 0) {
-        showNotification('Korpa je prazna!');
-        return;
-      }
+        if (currentCart.length === 0) {
+            showNotification('Korpa je prazna!');
+            return;
+        }
 
-      document.getElementById('confirmOverlay').style.display = 'flex';
+        document.getElementById('confirmOverlay').style.display = 'flex';
 
-      document.getElementById('confirmYes').onclick = async () => {
-        document.getElementById('confirmOverlay').style.display = 'none';
+        document.getElementById('confirmYes').onclick = async () => {
+            document.getElementById('confirmOverlay').style.display = 'none';
 
-        await fetch('/checkout/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-          },
-          body: JSON.stringify({ cart: currentCart })
-        });
+            await fetch('/checkout/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ cart: currentCart })
+            });
 
-        currentCart = [];
-        saveCart();
-        document.getElementById('successOverlay').style.display = 'flex';
-      };
+            currentCart = [];
+            saveCart();
+            document.getElementById('successOverlay').style.display = 'flex';
+        };
 
-      document.getElementById('confirmNo').onclick = () => {
-        document.getElementById('confirmOverlay').style.display = 'none';
-      };
+        document.getElementById('confirmNo').onclick = () => {
+            document.getElementById('confirmOverlay').style.display = 'none';
+        };
     }
 
     function getCookie(name) {
-      let cookieValue = null;
-      document.cookie.split(';').forEach(cookie => {
-        cookie = cookie.trim();
-        if (cookie.startsWith(name + '=')) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
         }
-      });
-      return cookieValue;
+        return cookieValue;
     }
 
     // ======== INIT ========
     document.addEventListener('DOMContentLoaded', () => {
-      loadCart();
-      initFilters();
+        loadCart();
+        initFilters();
 
-      const btnCart = document.getElementById('btnCart');
-      const cartModal = document.getElementById('cartModal');
+        const btnCart = document.getElementById('btnCart');
+        const cartModal = document.getElementById('cartModal');
 
-      if (btnCart) {
-        btnCart.addEventListener('click', () => {
-          cartModal.style.display = 'flex';
-          updateCartDisplay();
-        });
-      }
-
-      const closeCartModal = document.getElementById('closeCartModal');
-      if (closeCartModal) {
-        closeCartModal.addEventListener('click', () => {
-          cartModal.style.display = 'none';
-        });
-      }
-
-      if (cartModal) {
-        cartModal.addEventListener('click', (e) => {
-          if (e.target === cartModal) cartModal.style.display = 'none';
-        });
-      }
-
-      document.querySelectorAll('.add-to-cart').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const card = e.target.closest('.card');
-          addToCart({
-            id: card.dataset.id,
-            title: card.querySelector('.title').textContent,
-            brand: card.dataset.brand,
-            price: parseInt(card.dataset.price),
-            image: card.querySelector('img').src
-          });
-        });
-      });
-
-      document.querySelectorAll('.preview-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          openProductModal(e.target.closest('.card'));
-        });
-      });
-
-      const checkoutBtn = document.getElementById('checkoutBtn');
-      if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', checkout);
-      }
-
-      const modalCloseBtn = document.getElementById('modalClose');
-      const modal = document.getElementById('productModal');
-
-      if (modalCloseBtn) {
-        modalCloseBtn.addEventListener('click', closeModal);
-      }
-
-      if (modal) {
-        modal.addEventListener('click', (e) => {
-          if (e.target === modal) closeModal();
-        });
-      }
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          if (modal && modal.style.display === 'flex') closeModal();
-          if (filterPanelOpen) closeFilterPanel();
+        if (btnCart) {
+            btnCart.addEventListener('click', () => {
+                cartModal.style.display = 'flex';
+                updateCartDisplay();
+            });
         }
-      });
 
-      const closeLoginModal = document.getElementById('closeLoginModal');
-      if (closeLoginModal) {
-        closeLoginModal.addEventListener('click', () => {
-          document.getElementById('loginRequiredModal').style.display = 'none';
-        });
-      }
+        const closeCartModal = document.getElementById('closeCartModal');
+        if (closeCartModal) {
+            closeCartModal.addEventListener('click', () => {
+                cartModal.style.display = 'none';
+            });
+        }
 
-      const successOk = document.getElementById('successOk');
-      if (successOk) {
-        successOk.addEventListener('click', () => {
-          document.getElementById('successOverlay').style.display = 'none';
+        if (cartModal) {
+            cartModal.addEventListener('click', (e) => {
+                if (e.target === cartModal) cartModal.style.display = 'none';
+            });
+        }
+
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const card = e.target.closest('.card');
+                addToCart({
+                    id: card.dataset.id,
+                    title: card.querySelector('.title').textContent,
+                    brand: card.dataset.brand,
+                    price: parseInt(card.dataset.price),
+                    image: card.querySelector('img').src
+                });
+            });
         });
-      }
+
+        document.querySelectorAll('.preview-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                openProductModal(e.target.closest('.card'));
+            });
+        });
+
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', checkout);
+        }
+
+        const modalCloseBtn = document.getElementById('modalClose');
+        const modal = document.getElementById('productModal');
+
+        if (modalCloseBtn) {
+            modalCloseBtn.addEventListener('click', closeModal);
+        }
+
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (modal && modal.style.display === 'flex') closeModal();
+                closeFilterDrawer();
+            }
+        });
+
+        const closeLoginModal = document.getElementById('closeLoginModal');
+        if (closeLoginModal) {
+            closeLoginModal.addEventListener('click', () => {
+                document.getElementById('loginRequiredModal').style.display = 'none';
+            });
+        }
+
+        const successOk = document.getElementById('successOk');
+        if (successOk) {
+            successOk.addEventListener('click', () => {
+                document.getElementById('successOverlay').style.display = 'none';
+            });
+        }
     });
-  </script>
+</script>
 
   <style>
     @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
     }
 
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+    }
+
+    /* ======== OSNOVNI STILOVI ======== */
     .swiper-container { width: 100%; height: 400px; }
     .swiper-slide { display: flex; align-items: center; justify-content: center; }
     .swiper-button-prev, .swiper-button-next {
-      color: #333;
-      background: rgba(255,255,255,0.8);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
+        color: #333;
+        background: rgba(255,255,255,0.8);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
     }
     .swiper-button-prev:after, .swiper-button-next:after { font-size: 18px; }
     .swiper-pagination-bullet-active { background: #333; }
 
+    /* ======== KORPA STILOVI ======== */
     .btn-qty {
-      width: 30px; height: 30px;
-      border: 1px solid #ddd;
-      background: white;
-      cursor: pointer;
-      border-radius: 4px;
+        width: 30px; height: 30px;
+        border: 1px solid #ddd;
+        background: white;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s;
     }
+    .btn-qty:hover {
+        background: #f0f0f0;
+        transform: scale(1.05);
+    }
+    
     .btn-remove {
-      background: #ff4444; color: white;
-      border: none; padding: 5px 10px;
-      cursor: pointer; border-radius: 4px; font-size: 12px;
+        background: #ff4444; 
+        color: white;
+        border: none; 
+        padding: 5px 10px;
+        cursor: pointer; 
+        border-radius: 4px; 
+        font-size: 12px;
+        transition: all 0.2s;
+    }
+    .btn-remove:hover {
+        background: #cc0000;
+        transform: scale(1.05);
     }
 
+    /* ======== NOTIFIKACIJE ======== */
     .notification {
-      position: fixed;
-      bottom: 20px; right: 20px;
-      background: #4CAF50; color: white;
-      padding: 12px 20px;
-      border-radius: 8px;
-      z-index: 10000;
-      animation: slideIn 0.3s ease;
+        position: fixed;
+        bottom: 20px; 
+        right: 20px;
+        background: #4CAF50; 
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    /* ======== MODALI ======== */
+    /* ======== MODAL ZA PROIZVODE ======== */
     .modal {
-      display: none;
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      z-index: 2000;
-      align-items: center; justify-content: center;
-    }
-    .modal__dialog {
-      background: white;
-      max-width: 900px; width: 90%;
-      max-height: 90vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border-radius: 12px;
-      overflow: hidden;
-      position: relative;
-    }
-    .modal__media {
-      background: #f5f5f5;
-      display: flex; align-items: center; justify-content: center;
-      min-height: 400px;
-    }
-    .modal__body { padding: 24px; overflow-y: auto; }
-    .modal__header {
-      display: flex; justify-content: space-between;
-      align-items: flex-start; margin-bottom: 20px;
-    }
-    .modal__title { flex: 1; }
-    .modal__brand { display: block; font-size: 14px; color: #666; letter-spacing: 2px; margin-bottom: 8px; }
-    .modal__name { display: block; font-size: 24px; font-weight: 700; margin-bottom: 8px; }
-    .modal__price { display: block; font-size: 28px; font-weight: 800; color: #c41e3a; }
-    .modal__close { background: none; border: none; font-size: 24px; cursor: pointer; padding: 8px; line-height: 1; }
-    .modal__section { margin-bottom: 24px; }
-    .modal__section h4 { margin-bottom: 12px; font-size: 16px; font-weight: 600; }
-    .specs { list-style: none; padding: 0; }
-    .specs li { padding: 8px 0; border-bottom: 1px solid #eee; font-size: 14px; }
-    .specs li strong { display: inline-block; width: 120px; color: #666; }
-
-    #confirmOverlay, #successOverlay {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      z-index: 2002;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .confirm-box {
-      background: white; padding: 30px; border-radius: 12px;
-      max-width: 400px; width: 90%; text-align: center;
-    }
-    .confirm-actions {
-      display: flex; gap: 15px; justify-content: center; margin-top: 20px;
-    }
-
-    /* ======== FILTER TOGGLE DUGME ======== */
-    #filterToggle {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding: 12px 24px;
-      background: #c41e3a;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 16px;
-      font-family: inherit;
-      position: relative;
-      z-index: 101;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-    }
-    #filterToggle:hover { background: #a01830; }
-    #filterToggle .arrow {
-      transition: transform 0.3s ease;
-      display: inline-block;
-      pointer-events: none;
-    }
-    #filterToggle.active .arrow { transform: rotate(180deg); }
-
-    /* ======== FILTER KONTEJNER ======== */
-    .filter-toggle-container {
-      position: relative;
-      margin-bottom: 20px;
-      /* Važno: z-index mora biti viši od kartica ali niži od modalnih */
-      z-index: 500;
-    }
-
-    /* ======== FILTER PANEL ======== */
-    .filter-panel {
-      display: none;
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-      overflow-y: auto;
-    }
-    .filter-panel.active { display: block; }
-
-    /* Desktop: panel je ispod dugmeta */
-    @media (min-width: 769px) {
-      .filter-panel {
-        position: absolute;
-        top: calc(100% + 8px);
+        display: none;
+        position: fixed; 
+        top: 0; 
         left: 0;
-        right: 0;
-        max-height: 70vh;
-        z-index: 999;
-      }
+        width: 100%; 
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        z-index: 2000;
+        align-items: center; 
+        justify-content: center;
+    }
+    
+    .modal__dialog {
+        background: white;
+        max-width: 900px; 
+        width: 90%;
+        max-height: 90vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .modal__media {
+        background: #f5f5f5;
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        min-height: 400px;
+    }
+    
+    .modal__body { 
+        padding: 24px; 
+        overflow-y: auto; 
+    }
+    
+    .modal__header {
+        display: flex; 
+        justify-content: space-between;
+        align-items: flex-start; 
+        margin-bottom: 20px;
+    }
+    
+    .modal__title { flex: 1; }
+    .modal__brand { 
+        display: block; 
+        font-size: 14px; 
+        color: #666; 
+        letter-spacing: 2px; 
+        margin-bottom: 8px; 
+    }
+    .modal__name { 
+        display: block; 
+        font-size: 24px; 
+        font-weight: 700; 
+        margin-bottom: 8px; 
+    }
+    .modal__price { 
+        display: block; 
+        font-size: 28px; 
+        font-weight: 800; 
+        color: #c41e3a; 
+    }
+    .modal__close { 
+        background: none; 
+        border: none; 
+        font-size: 24px; 
+        cursor: pointer; 
+        padding: 8px; 
+        line-height: 1;
+        transition: transform 0.2s;
+    }
+    .modal__close:hover {
+        transform: scale(1.1);
+    }
+    
+    .modal__section { margin-bottom: 24px; }
+    .modal__section h4 { 
+        margin-bottom: 12px; 
+        font-size: 16px; 
+        font-weight: 600; 
+    }
+    
+    .specs { 
+        list-style: none; 
+        padding: 0; 
+    }
+    .specs li { 
+        padding: 8px 0; 
+        border-bottom: 1px solid #eee; 
+        font-size: 14px; 
+    }
+    .specs li strong { 
+        display: inline-block; 
+        width: 120px; 
+        color: #666; 
     }
 
-    /* Mobilni: panel klizi odozdo kao drawer */
-    @media (max-width: 768px) {
-      .filter-panel {
+    /* ======== POTVRDA PORUDŽBINE ======== */
+    #confirmOverlay, #successOverlay {
+        position: fixed; 
+        top: 0; 
+        left: 0;
+        width: 100%; 
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        z-index: 2002;
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+    }
+    
+    .confirm-box {
+        background: white; 
+        padding: 30px; 
+        border-radius: 12px;
+        max-width: 400px; 
+        width: 90%; 
+        text-align: center;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .confirm-actions {
+        display: flex; 
+        gap: 15px; 
+        justify-content: center; 
+        margin-top: 20px;
+    }
+
+    /* ======== NOVI FILTER DUGME I DRAWER STILOVI ======== */
+    .filter-toggle-container {
+        position: relative;
+        margin-bottom: 20px;
+        z-index: 500;
+    }
+
+    .filter-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 14px 24px;
+        background: #c41e3a;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 16px;
+        font-family: inherit;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .filter-btn:hover {
+        background: #a01830;
+        transform: scale(1.02);
+    }
+
+    .filter-btn:active {
+        transform: scale(0.98);
+    }
+
+    .filter-btn .filter-icon {
+        stroke: white;
+        transition: transform 0.3s ease;
+    }
+
+    .filter-btn:hover .filter-icon {
+        transform: rotate(15deg);
+    }
+
+    .filter-btn .badge-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ff4444;
+        color: white;
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        font-size: 12px;
+        font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid white;
+        animation: fadeIn 0.3s ease;
+    }
+
+    /* Filter Drawer - Mobilni stil */
+    .filter-drawer {
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
-        top: auto;
-        max-height: 80vh;
-        border-radius: 20px 20px 0 0;
-        border-bottom: none;
-        z-index: 999;
-        padding-bottom: 30px;
-      }
+        background: white;
+        border-radius: 24px 24px 0 0;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
     }
 
-    /* Modal je iznad svega */
-    #productModal { z-index: 10000 !important; }
-    #productModal .modal__dialog { z-index: 10001 !important; }
+    .filter-drawer.open {
+        transform: translateY(0);
+    }
 
-    /* Kad je modal otvoren, sakrij filter */
-    body.modal-open { overflow: hidden; }
-    body.modal-open .filter-panel { display: none !important; }
-    body.modal-open #filterOverlay { display: none !important; }
+    .filter-drawer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid #eee;
+        background: white;
+        border-radius: 24px 24px 0 0;
+    }
 
-    /* ======== MOBILNI RESPONSIVE ======== */
-    @media (max-width: 768px) {
-      .modal__dialog {
-        grid-template-columns: 1fr;
-        width: 95%;
-      }
-      .modal__media { min-height: 300px; }
+    .filter-drawer-header h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+    }
 
-      #filterToggle {
-        position: sticky;
+    .close-drawer-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 8px;
+        line-height: 1;
+        color: #666;
+        transition: all 0.2s;
+    }
+
+    .close-drawer-btn:hover {
+        transform: scale(1.1);
+        color: #c41e3a;
+    }
+
+    .filter-drawer-content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-sections {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .filter-section {
+        border: 1px solid #eee;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.2s;
+    }
+
+    .filter-section:hover {
+        border-color: #ddd;
+    }
+
+    .filter-section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        background: #f9f9f9;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s;
+        user-select: none;
+    }
+
+    .filter-section-header:hover {
+        background: #f0f0f0;
+    }
+
+    .filter-section-header:active {
+        background: #e8e8e8;
+    }
+
+    .filter-section-header .chevron {
+        transition: transform 0.3s ease;
+    }
+
+    .filter-section.expanded .filter-section-header .chevron {
+        transform: rotate(180deg);
+    }
+
+    .filter-section-content {
+        display: none;
+        padding: 16px;
+        background: white;
+        flex-wrap: wrap;
+        gap: 10px;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .filter-section.expanded .filter-section-content {
+        display: flex;
+    }
+
+    /* Chip stilovi za filtere */
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: #f5f5f5;
+        border-radius: 30px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        user-select: none;
+    }
+
+    .chip:hover {
+        background: #e0e0e0;
+        transform: translateY(-1px);
+    }
+
+    .chip:active {
+        transform: translateY(0);
+    }
+
+    .chip input {
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .chip:has(input:checked) {
+        background: #c41e3a;
+        color: white;
+    }
+
+    /* Price range stilovi */
+    .price-range {
+        width: 100%;
+    }
+
+    .price-inputs {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .price-inputs label {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 13px;
+        color: #666;
+        font-weight: 500;
+    }
+
+    .price-inputs select {
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        background: white;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .price-inputs select:hover {
+        border-color: #c41e3a;
+    }
+
+    .price-inputs select:focus {
+        outline: none;
+        border-color: #c41e3a;
+        box-shadow: 0 0 0 2px rgba(196,30,58,0.1);
+    }
+
+    /* Filter akcije dugmad */
+    .filter-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+
+    .filter-actions .btn {
+        flex: 1;
+        padding: 14px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+    }
+
+    .filter-actions .apply-btn {
+        background: #c41e3a;
+        color: white;
+        border: none;
+    }
+
+    .filter-actions .apply-btn:hover {
+        background: #a01830;
+        transform: translateY(-2px);
+    }
+
+    .filter-actions .apply-btn:active {
+        transform: translateY(0);
+    }
+
+    .filter-actions .reset-btn {
+        background: #f5f5f5;
+        color: #333;
+        border: 1px solid #ddd;
+    }
+
+    .filter-actions .reset-btn:hover {
+        background: #e0e0e0;
+        transform: translateY(-2px);
+    }
+
+    .filter-actions .reset-btn:active {
+        transform: translateY(0);
+    }
+
+    /* Overlay za zatvaranje drawer-a */
+    .filter-overlay {
+        position: fixed;
         top: 0;
-        z-index: 100;
-      }
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+        animation: fadeIn 0.3s ease;
     }
 
-    @media (max-width: 480px) {
-      #filterToggle { padding: 10px 20px; font-size: 14px; }
-      .chip { font-size: 12px; padding: 6px 12px; }
+    /* ======== RESPONSIVE STILOVI ======== */
+    
+    /* Desktop prikaz filtera (opciono) */
+    @media (min-width: 769px) {
+        .filter-drawer {
+            max-width: 500px;
+            right: auto;
+            left: 50%;
+            transform: translate(-50%, 100%);
+            border-radius: 24px;
+            bottom: auto;
+            top: 50%;
+            max-height: 85vh;
+        }
+        
+        .filter-drawer.open {
+            transform: translate(-50%, -50%);
+        }
+        
+        .filter-drawer-header {
+            border-radius: 24px 24px 0 0;
+        }
     }
-  </style>
+
+    /* Tablet i mobilni responsiv */
+    @media (max-width: 768px) {
+        .modal__dialog {
+            grid-template-columns: 1fr;
+            width: 95%;
+        }
+        
+        .modal__media { 
+            min-height: 300px; 
+        }
+        
+        .filter-btn {
+            padding: 12px 20px;
+            font-size: 15px;
+        }
+        
+        .filter-drawer {
+            max-height: 80vh;
+        }
+        
+        .filter-drawer-content {
+            padding: 16px;
+        }
+        
+        .filter-section-header {
+            padding: 14px;
+            font-size: 15px;
+        }
+        
+        .filter-section-content {
+            padding: 14px;
+        }
+    }
+
+    /* Mali mobilni uređaji */
+    @media (max-width: 480px) {
+        .filter-btn {
+            padding: 12px 20px;
+            font-size: 14px;
+        }
+        
+        .filter-btn .badge-count {
+            width: 20px;
+            height: 20px;
+            font-size: 11px;
+            top: -6px;
+            right: -6px;
+        }
+        
+        .chip {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
+        .filter-drawer-content {
+            padding: 12px;
+        }
+        
+        .filter-section-header {
+            padding: 12px;
+            font-size: 14px;
+        }
+        
+        .filter-section-content {
+            padding: 12px;
+            gap: 8px;
+        }
+        
+        .price-inputs {
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .price-inputs label {
+            width: 100%;
+        }
+        
+        .filter-actions .btn {
+            padding: 12px;
+            font-size: 14px;
+        }
+        
+        .modal__name {
+            font-size: 18px;
+        }
+        
+        .modal__price {
+            font-size: 22px;
+        }
+        
+        .specs li strong {
+            width: 100px;
+            font-size: 12px;
+        }
+        
+        .specs li {
+            font-size: 12px;
+        }
+        
+        .confirm-box {
+            padding: 20px;
+            width: 85%;
+        }
+        
+        .confirm-box h3 {
+            font-size: 18px;
+        }
+    }
+
+    /* Sprečavanje skrolovanja pozadine kada je drawer otvoren */
+    body.drawer-open {
+        overflow: hidden;
+    }
+
+    /* Dodatni stilovi za bolji touch experience */
+    @media (hover: none) and (pointer: coarse) {
+        .btn-qty, .btn-remove, .filter-btn, .filter-section-header, .chip, .modal__close {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .filter-section-header:active {
+            background: #e8e8e8;
+        }
+        
+        .chip:active {
+            background: #e0e0e0;
+        }
+        
+        .filter-actions .btn:active {
+            transform: scale(0.98);
+        }
+    }
+
+    /* Animacija za scroll indikator u drawer-u */
+    .filter-drawer-content::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    .filter-drawer-content::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    
+    .filter-drawer-content::-webkit-scrollbar-thumb {
+        background: #c41e3a;
+        border-radius: 10px;
+    }
+    
+    .filter-drawer-content::-webkit-scrollbar-thumb:hover {
+        background: #a01830;
+    }
+</style>
 </body>
 </html>
